@@ -10,15 +10,15 @@
                 Movimentar
             </div>
             <div class="col-6">
-                <input type="text" v-model="totalMovimentacao">
+                <input class="form-control" type="text" v-model="totalMovimentacao">
             </div>
         </div>
         <div class="row">
             <div class="col-6">
-                <button @click="totalMovimentacao++"> + </button>
+                <button class="btn btn-success" @click="totalMovimentacao++"> + </button>
             </div>
             <div class="col-6">
-                <button @click="totalMovimentacao--"> - </button>
+                <button class="btn btn-danger" @click="totalMovimentacao--"> - </button>
             </div>
         </div>
         <div class="row">
@@ -48,6 +48,7 @@ export default {
                 quantidade : this.totalMovimentacao,
             };
             this.axios.post('/movimentacao', data).then((response) => {
+                this.$root.$emit('changeQuantidadeAtual', this.sku, this.totalMovimentacao);
                 this.totalMovimentacao = 0;
             }).catch((error) => {
                 alert('Oh no ' + error.data.error)

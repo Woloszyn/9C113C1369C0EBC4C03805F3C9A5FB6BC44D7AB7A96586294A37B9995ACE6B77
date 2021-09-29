@@ -96,6 +96,12 @@ export default {
                 quantidade_inicial : this.quantidade_inicial,
             };
             this.axios.post('/produto', data).then((response) => {
+                this.produtos.push({
+                    'nome': this.nome,
+                    'sku': this.sku,
+                    'quantidade_inicial': this.quantidade_inicial,
+                    'quantidade_atual': this.quantidade_inicial
+                })
                 this.limpar();
             }).catch((error) => {
                 alert('Oh no ' + error.data.error)
@@ -105,7 +111,7 @@ export default {
             this.$modal.show(ModalMovimentacao, { 'sku': sku });
         },
         historico(sku) {
-            this.$modal.show(Historico, { 'sku': sku });
+            this.$modal.show(Historico, { 'sku': sku }, {scrollable: true, height: 800});
         },
         limpar()  {
             this.nome = ''
@@ -115,6 +121,11 @@ export default {
     },
     mounted() {
         this.produtos = JSON.parse(this.$attrs.jsonprodutos);
+        this.$root.$on('changeQuantidadeAtual', (sku, quantidade) => {
+            let produtoToChange = this.produtos.find((produto) => produto.sku == sku);
+            produtoToChange.quantidade_atual = Number(produtoToChange.quantidade_atual) + (Number(quantidade));
+            this.$modal.hideAll();
+        });
     }
 
 }

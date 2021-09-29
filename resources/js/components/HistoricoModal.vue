@@ -8,7 +8,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="produto in produtos" :key="produto.sku">
+                <tr v-for="produto in produtos">
                     <th>{{produto.sku}}</th>
                     <td>{{produto.movimentacao}}</td>
                 </tr>

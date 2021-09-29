@@ -2017,6 +2017,8 @@ __webpack_require__.r(__webpack_exports__);
         quantidade: this.totalMovimentacao
       };
       this.axios.post('/movimentacao', data).then(function (response) {
+        _this.$root.$emit('changeQuantidadeAtual', _this.sku, _this.totalMovimentacao);
+
         _this.totalMovimentacao = 0;
       })["catch"](function (error) {
         alert('Oh no ' + error.data.error);
@@ -2136,6 +2138,13 @@ __webpack_require__.r(__webpack_exports__);
         quantidade_inicial: this.quantidade_inicial
       };
       this.axios.post('/produto', data).then(function (response) {
+        _this.produtos.push({
+          'nome': _this.nome,
+          'sku': _this.sku,
+          'quantidade_inicial': _this.quantidade_inicial,
+          'quantidade_atual': _this.quantidade_inicial
+        });
+
         _this.limpar();
       })["catch"](function (error) {
         alert('Oh no ' + error.data.error);
@@ -2149,6 +2158,9 @@ __webpack_require__.r(__webpack_exports__);
     historico: function historico(sku) {
       this.$modal.show(_HistoricoModal_vue__WEBPACK_IMPORTED_MODULE_1__["default"], {
         'sku': sku
+      }, {
+        scrollable: true,
+        height: 800
       });
     },
     limpar: function limpar() {
@@ -2158,7 +2170,18 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
+    var _this2 = this;
+
     this.produtos = JSON.parse(this.$attrs.jsonprodutos);
+    this.$root.$on('changeQuantidadeAtual', function (sku, quantidade) {
+      var produtoToChange = _this2.produtos.find(function (produto) {
+        return produto.sku == sku;
+      });
+
+      produtoToChange.quantidade_atual = Number(produtoToChange.quantidade_atual) + Number(quantidade);
+
+      _this2.$modal.hideAll();
+    });
   }
 });
 
@@ -37859,7 +37882,7 @@ var render = function() {
       _c(
         "tbody",
         _vm._l(_vm.produtos, function(produto) {
-          return _c("tr", { key: produto.sku }, [
+          return _c("tr", [
             _c("th", [_vm._v(_vm._s(produto.sku))]),
             _vm._v(" "),
             _c("td", [_vm._v(_vm._s(produto.movimentacao))])
@@ -37923,6 +37946,7 @@ var render = function() {
               expression: "totalMovimentacao"
             }
           ],
+          staticClass: "form-control",
           attrs: { type: "text" },
           domProps: { value: _vm.totalMovimentacao },
           on: {
@@ -37942,6 +37966,7 @@ var render = function() {
         _c(
           "button",
           {
+            staticClass: "btn btn-success",
             on: {
               click: function($event) {
                 _vm.totalMovimentacao++
@@ -37956,6 +37981,7 @@ var render = function() {
         _c(
           "button",
           {
+            staticClass: "btn btn-danger",
             on: {
               click: function($event) {
                 _vm.totalMovimentacao--
