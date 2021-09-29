@@ -11,6 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::prefix('/produto')->group(function () {
+    Route::get('/', 'ProdutoController@index');
+    Route::post('/', 'ProdutoController@save');
+    Route::put('/', 'ProdutoController@altera');
+    Route::delete('/', 'ProdutoController@delete');
 });
