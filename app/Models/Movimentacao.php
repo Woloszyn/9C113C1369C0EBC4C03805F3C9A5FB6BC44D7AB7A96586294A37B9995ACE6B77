@@ -8,9 +8,9 @@ class Movimentacao extends Model {
 
     protected $table = 'movimentacoes';
 
-    protected $primaryKey = 'sku';
+    protected $primaryKey = 'id';
 
-    protected $fillable = [ 'quantidade', 'sku'];
+    protected $fillable = [ 'quantidade', 'sku', 'id'];
 
     public $timestamps = false;
 

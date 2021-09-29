@@ -14,6 +14,12 @@
 Route::prefix('/produto')->group(function () {
     Route::get('/', 'ProdutoController@index');
     Route::post('/', 'ProdutoController@save');
-    Route::put('/', 'ProdutoController@altera');
-    Route::delete('/', 'ProdutoController@delete');
+});
+
+Route::prefix('/historico')->group(function () {
+    Route::get('/', 'HistoricoController@find');
+});
+
+Route::prefix('/movimentacao')->group(function () {
+    Route::post('/', 'MovimentacoesController@save');
 });

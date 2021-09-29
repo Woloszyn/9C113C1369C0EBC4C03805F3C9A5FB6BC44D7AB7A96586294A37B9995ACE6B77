@@ -52,7 +52,8 @@
                         <tr>
                             <th scope="col">SKU</th>
                             <th scope="col">Nome</th>
-                            <th scope="col">Quantidade</th>
+                            <th scope="col">Quantidade Inicial</th>
+                            <th scope="col">Quantidade Atual</th>
                             <th scope="col">Movimentacões</th>
                             <th scope="col">Histórico</th>
                         </tr>
@@ -61,9 +62,10 @@
                         <tr v-for="produto in produtos" :key="produto.sku">
                             <th>{{produto.sku}}</th>
                             <td>{{produto.nome}}</td>
-                            <td>{{produto.quantidade}}</td>
-                            <td><button><i class="material-icons">edit</i></button></td>
-                            <td><button><i class="material-icons">history</i></button></td>
+                            <td>{{produto.quantidade_inicial}}</td>
+                            <td>{{produto.quantidade_atual}}</td>
+                            <td><button><i class="material-icons" @click="movimentar(produto.sku)">edit</i></button></td>
+                            <td><button @click="historico(produto.sku)"><i class="material-icons">history</i></button></td>
                         </tr>
                     </tbody>
                 </table>
@@ -73,12 +75,16 @@
 </template>
 
 <script>
+import ModalMovimentacao from './ModalMovimentacao.vue';
+import Historico from './HistoricoModal.vue';
+
 export default {
     data() {
         return {
             'nome' : '',
             'sku' : '',
             'quantidade_inicial' : '',
+            totalMovimentacao: 0,
             produtos: [],
         }
     },
@@ -94,6 +100,12 @@ export default {
             }).catch((error) => {
                 alert('Oh no ' + error.data.error)
             })
+        },
+        movimentar(sku) {
+            this.$modal.show(ModalMovimentacao, { 'sku': sku });
+        },
+        historico(sku) {
+            this.$modal.show(Historico, { 'sku': sku });
         },
         limpar()  {
             this.nome = ''

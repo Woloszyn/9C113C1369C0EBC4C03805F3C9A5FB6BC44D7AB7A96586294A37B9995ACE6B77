@@ -12,10 +12,12 @@ class ProdutoController extends Controller {
         $dbProdutos = Produto::get();
         $Produtos = [];
         foreach($dbProdutos as $produto) {
+            $totalQuantidade = MovimentacoesController::getTotalMovimentacoes($produto->sku);
             $Produtos[] = [
                 'nome' => $produto->nome,
                 'sku' => $produto->sku,
-                'quantidade' => $produto->quantidade_inicial,
+                'quantidade_inicial' => $produto->quantidade_inicial,
+                'quantidade_atual' => ($produto->quantidade_inicial + $totalQuantidade)
             ];
         }
         return view('cadastro_produto', [

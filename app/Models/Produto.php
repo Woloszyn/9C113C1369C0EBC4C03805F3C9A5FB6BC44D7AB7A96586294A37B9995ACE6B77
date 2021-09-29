@@ -16,5 +16,8 @@ class Produto extends Model{
 
     public $timestamps = false;
 
+    public function movimentacoes() {
+        return $this->hasMany('App\Models\Movimentacao', 'sku', 'sku');
+    }
 
 }
