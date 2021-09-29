@@ -4,14 +4,12 @@
             <thead>
                 <tr>
                     <th scope="col">SKU</th>
-                    <th scope="col">Nome</th>
                     <th scope="col">Movimentacao</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="produto in produtos" :key="produto.sku">
                     <th>{{produto.sku}}</th>
-                    <td>{{produto.nome}}</td>
                     <td>{{produto.movimentacao}}</td>
                 </tr>
             </tbody>
@@ -23,12 +21,22 @@
 export default {
 
     props:{
-        'sku' : {required : true}
+        'sku': {required : true}
     },
     data() {
         return {
             produtos: []
         }
+    },
+    methods:{
+        recuperaDados() {
+            this.axios.get(`/historico?sku=${this.sku}`).then((response) => {
+                this.produtos = response.data.movimentacoes;
+            });
+        }
+    },
+    mounted() {
+        this.recuperaDados();
     }
 
 }

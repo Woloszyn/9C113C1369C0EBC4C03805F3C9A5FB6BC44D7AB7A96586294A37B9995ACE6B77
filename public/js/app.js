@@ -1927,8 +1927,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     'sku': {
@@ -1939,6 +1937,18 @@ __webpack_require__.r(__webpack_exports__);
     return {
       produtos: []
     };
+  },
+  methods: {
+    recuperaDados: function recuperaDados() {
+      var _this = this;
+
+      this.axios.get("/historico?sku=".concat(this.sku)).then(function (response) {
+        _this.produtos = response.data.movimentacoes;
+      });
+    }
+  },
+  mounted: function mounted() {
+    this.recuperaDados();
   }
 });
 
@@ -37852,8 +37862,6 @@ var render = function() {
           return _c("tr", { key: produto.sku }, [
             _c("th", [_vm._v(_vm._s(produto.sku))]),
             _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(produto.nome))]),
-            _vm._v(" "),
             _c("td", [_vm._v(_vm._s(produto.movimentacao))])
           ])
         }),
@@ -37870,8 +37878,6 @@ var staticRenderFns = [
     return _c("thead", [
       _c("tr", [
         _c("th", { attrs: { scope: "col" } }, [_vm._v("SKU")]),
-        _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Nome")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Movimentacao")])
       ])

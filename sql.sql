@@ -5,13 +5,8 @@ CREATE TABLE produtos (
 );
 
 CREATE TABLE movimentacoes (
-    id int,
-    sku varchar(90) primary key,
+    id int primary key,
+    sku varchar(90),
     quantidade int,
     CONSTRAINT fk_movimentacoes FOREIGN KEY (sku) REFERENCES produtos (sku)
-);
-
-CREATE TABLE historico_movimentacoes (
-    id int,
-    movimentacoes json
 );
